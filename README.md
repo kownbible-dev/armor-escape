@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -644,12 +644,12 @@
     <!-- 장소 이동 + 사진/영상 업로드 게이트 -->
     <div class="location-overlay" id="locationOverlay">
       <div class="location-card">
-        <h2 class="location-title">다음 장소로 이동!</h2>
+        <h2 class="location-title" id="locationTitle">다음 장소로 이동!</h2>
         <p class="location-sub" id="locationText">
           장소 안내 문구가 여기에 표시됩니다.
         </p>
         <div class="location-file">
-          <div>📷 해당 장소에서 <strong>사진 또는 영상</strong>을 찍고 업로드하세요.</div>
+          <div>📷 위 지시를 따라 <strong>사진 또는 영상</strong>을 준비하고 업로드하세요.</div>
           <input type="file" id="photoInput" accept="image/*,video/*" />
         </div>
         <button class="location-btn" id="locationNextBtn" disabled>이제 문제 풀기 →</button>
@@ -662,7 +662,7 @@
   </div>
 
   <script>
-    // ✅ 여기에 네 구글폼 URL을 넣어줘!
+    // ✅ 네 구글폼 URL 넣는 곳
     const googleFormUrl = "https://forms.gle/여기에_네_폼_URL_붙여넣기";
 
     const rooms = [
@@ -914,14 +914,23 @@
       }
     ];
 
-    // 각 방(0~5)에 대응하는 장소 설명
+    // 장소별 제목 & 설명
+    const locationTitles = [
+      "첫번째 문제",
+      "성가1연습실로 이동",
+      "1층 로비",
+      "3층 유초등부",
+      "청년부실로 이동",
+      "비밀의 장소로 이동"
+    ];
+
     const locations = [
-      "1번 장소: 중고등부실로 이동해서 팀이 함께 나온 사진 또는 영상을 업로드하세요.",
-      "2번 장소: 성가1연습실 앞 또는 안에서 사진 또는 영상을 업로드하세요.",
-      "3번 장소: 1층 로비 중앙에서 팀이 함께 나온 사진 또는 영상을 업로드하세요.",
-      "4번 장소: 유초등부실 근처/앞에서 사진 또는 영상을 업로드하세요.",
-      "5번 장소: 청년부실 안에서 팀 사진 또는 영상을 업로드하세요.",
-      "6번 장소: (퀴즈라서 비밀! 안내받은 장소에서 사진 또는 영상을 업로드하세요.)"
+      "갈라디아서 2장 16절 말씀 퍼즐 완성하세요.",
+      "도미노를 완성하시오.",
+      "간수와 바울 역할극을 촬영하여 영상을 업로드 하시오.",
+      "사명, 소망 선언문을 작성하시오.",
+      "안대 착용 후 에베소서 2장 8~9절을 조원들이 나누어서 암송하시오.",
+      "퀴즈라서 비밀! 안내받은 대로 수행하세요."
     ];
 
     const armorNames = {
@@ -954,6 +963,7 @@
 
     const locationOverlay = document.getElementById("locationOverlay");
     const locationText = document.getElementById("locationText");
+    const locationTitleEl = document.getElementById("locationTitle");
     const photoInput = document.getElementById("photoInput");
     const locationNextBtn = document.getElementById("locationNextBtn");
 
@@ -1112,7 +1122,7 @@
         btn.addEventListener("click", () => {
           if (answered.has(room.id)) return;
 
-          // 다른 알파벳을 누를 때마다 빨간 해설 & 힌트 초기화
+          // 클릭할 때마다 기존 피드백/힌트 초기화
           feedbackEl.textContent = "";
           feedbackEl.className = "feedback";
           if (!noMoreHints) {
@@ -1127,7 +1137,7 @@
           if (choice.correct) {
             btn.classList.add("correct");
             feedbackEl.className = "feedback ok";
-            feedbackEl.textContent = choice.feedback; // 정답일 때만 초록색 해설
+            feedbackEl.textContent = choice.feedback; // ✅ 정답일 때만 초록색 해설
             answered.add(room.id);
             collected.add(room.armorKey);
             renderInventory();
@@ -1135,8 +1145,9 @@
             nextBtn.disabled = false;
           } else {
             btn.classList.add("wrong");
-            feedbackEl.className = "feedback no";
-            feedbackEl.textContent = choice.feedback; // 빨간 해설 (다음 클릭 시 초기화됨)
+            // ❌ 오답일 때는 빨간 글씨 해설 안 보이게 (피드백 비워둠)
+            feedbackEl.className = "feedback";
+            feedbackEl.textContent = "";
 
             wrongAttempts++;
             if (wrongAttempts >= 3) {
@@ -1233,7 +1244,9 @@
     }
 
     function showLocationGate(index) {
-      const desc = locations[index] || "다음 장소로 이동한 뒤 사진 또는 영상을 업로드하세요.";
+      const title = locationTitles[index] || "다음 장소로 이동";
+      const desc = locations[index] || "다음 지시에 따라 진행하세요.";
+      locationTitleEl.textContent = title;
       locationText.textContent = desc;
       photoInput.value = "";
       locationNextBtn.disabled = true;
@@ -1259,4 +1272,3 @@
   </script>
 </body>
 </html>
-
