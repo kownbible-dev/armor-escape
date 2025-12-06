@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -392,8 +392,6 @@
       background: rgba(22, 101, 52, 0.8);
     }
 
-    /* 오답일 때는 빨간 스타일 사용 X */
-
     .hint-row {
       margin-top: 10px;
       display: flex;
@@ -588,26 +586,33 @@
       box-shadow: none;
     }
 
-    /* 장비 장착 전체 화면 캐릭터 */
+    /* 장비 장착 전체 화면 캐릭터 - 크게 */
+    .gear-card {
+      max-width: 560px;
+      padding: 30px 24px 30px;
+      border-radius: 28px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.85);
+    }
+
     .gear-figure {
-      margin: 10px auto 6px;
-      width: 140px;
-      height: 140px;
-      border-radius: 30px;
+      margin: 18px auto 12px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50px;
       background: radial-gradient(circle at top, #1f2937 0, #020617 80%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 60px;
+      font-size: 110px;
       position: relative;
       overflow: hidden;
-      border: 2px solid rgba(251,191,36,0.7);
-      box-shadow: 0 0 24px rgba(251,191,36,0.5);
+      border: 3px solid rgba(251,191,36,0.9);
+      box-shadow: 0 0 42px rgba(251,191,36,0.6);
     }
 
     .gear-figure .character-gear-icon img {
-      width: 34px;
-      height: 34px;
+      width: 70px;
+      height: 70px;
     }
   </style>
 </head>
@@ -1067,7 +1072,8 @@
         characterFigure.appendChild(span);
       }
 
-      if (collected.has("belt"))      addIcon("belt.png", "gear-belt", true);
+      // 벨트 이미지는 외부 URL 사용
+      if (collected.has("belt"))      addIcon("https://i.postimg.cc/yDDNHGmP/belt.png", "gear-belt", true);
       if (collected.has("breastplate")) addIcon("🛡️", "gear-breast");
       if (collected.has("shoes"))     addIcon("👢", "gear-shoes");
       if (collected.has("shield"))    addIcon("🛡️", "gear-shield");
@@ -1197,7 +1203,7 @@
           if (choice.correct) {
             btn.classList.add("correct");
             feedbackEl.className = "feedback ok";
-            feedbackEl.textContent = choice.feedback; // ✅ 정답일 때만 초록색 해설
+            feedbackEl.textContent = choice.feedback; // ✅ 정답일 때만 해설 표시
             answered.add(room.id);
             collected.add(room.armorKey);
             lastArmorKey = room.armorKey;
@@ -1205,7 +1211,7 @@
             renderCharacter();
             nextBtn.disabled = false;
           } else {
-            // ❌ 오답일 때는 빨강 스타일/텍스트 없음
+            // ❌ 오답일 때는 색/텍스트 표시 안 함
             wrongAttempts++;
             if (wrongAttempts >= 3) {
               noMoreHints = true;
@@ -1229,7 +1235,7 @@
 
       nextBtn.addEventListener("click", () => {
         if (currentIndex < rooms.length - 1) {
-          // 다음 방으로 가기 전에: 장비 장착 연출 화면 → 그 다음 장소 게이트
+          // 다음 방: 장비 장착 연출 → 장소 이동 게이트
           pendingNextIndex = currentIndex + 1;
           showGearOverlay(lastArmorKey);
         } else {
