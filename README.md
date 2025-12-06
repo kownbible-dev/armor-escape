@@ -186,6 +186,7 @@
       font-size: 34px;
       position: relative;
       flex-shrink: 0;
+      overflow: hidden;
     }
 
     .character-gear-icon {
@@ -193,7 +194,13 @@
       font-size: 20px;
     }
 
-    .gear-belt      { bottom: 10px; }
+    .character-gear-icon img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+
+    .gear-belt      { bottom: 6px; }
     .gear-breast    { top: 16px; }
     .gear-shoes     { bottom: 4px; right: 10px; }
     .gear-shield    { left: 6px; top: 24px; }
@@ -385,10 +392,7 @@
       background: rgba(22, 101, 52, 0.8);
     }
 
-    .choice-btn.wrong {
-      border-color: rgba(248, 113, 113, 0.85);
-      background: rgba(127, 29, 29, 0.7);
-    }
+    /* 오답일 때는 빨간 스타일 사용 X */
 
     .hint-row {
       margin-top: 10px;
@@ -469,9 +473,10 @@
 
     .completion strong { color: var(--accent); }
 
-    /* 시작 화면 & 장소 오버레이 */
+    /* 공통 오버레이 스타일 */
     .start-overlay,
-    .location-overlay {
+    .location-overlay,
+    .gear-overlay {
       position: absolute;
       inset: 0;
       background: radial-gradient(circle at top, rgba(15,23,42,0.98), #020617);
@@ -484,7 +489,8 @@
     }
 
     .start-card,
-    .location-card {
+    .location-card,
+    .gear-card {
       max-width: 420px;
       width: 100%;
       background: rgba(15,23,42,0.96);
@@ -496,14 +502,16 @@
     }
 
     .start-title,
-    .location-title {
+    .location-title,
+    .gear-title {
       font-size: 18px;
       margin: 0 0 6px;
       color: var(--accent);
     }
 
     .start-sub,
-    .location-sub {
+    .location-sub,
+    .gear-sub {
       font-size: 13px;
       color: var(--muted);
       margin: 0 0 14px;
@@ -533,7 +541,8 @@
     }
 
     .start-btn,
-    .location-btn {
+    .location-btn,
+    .gear-btn {
       margin-top: 14px;
       width: 100%;
       border-radius: 999px;
@@ -556,6 +565,7 @@
     }
 
     .location-overlay { display: none; }
+    .gear-overlay { display: none; }
 
     .location-file {
       width: 100%;
@@ -576,6 +586,28 @@
       opacity: 0.4;
       cursor: default;
       box-shadow: none;
+    }
+
+    /* 장비 장착 전체 화면 캐릭터 */
+    .gear-figure {
+      margin: 10px auto 6px;
+      width: 140px;
+      height: 140px;
+      border-radius: 30px;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 80%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(251,191,36,0.7);
+      box-shadow: 0 0 24px rgba(251,191,36,0.5);
+    }
+
+    .gear-figure .character-gear-icon img {
+      width: 34px;
+      height: 34px;
     }
   </style>
 </head>
@@ -657,6 +689,20 @@
           * 업로드한 파일은 이 브라우저 안에서만 사용되고,<br />
           &nbsp;실제 서버에는 저장되지 않습니다. (리더가 현장에서만 확인해 주세요)
         </div>
+      </div>
+    </div>
+
+    <!-- 장비 장착 연출 화면 -->
+    <div class="gear-overlay" id="gearOverlay">
+      <div class="gear-card">
+        <h2 class="gear-title" id="gearTitle">새 장비를 획득했습니다!</h2>
+        <p class="gear-sub" id="gearSub">
+          전신갑주 조각이 장착되었습니다.
+        </p>
+        <div class="gear-figure" id="gearFigure">
+          🧍
+        </div>
+        <button class="gear-btn" id="gearNextBtn">다음 장소로 이동 →</button>
       </div>
     </div>
   </div>
@@ -930,7 +976,7 @@
       "간수와 바울 역할극을 촬영하여 영상을 업로드 하시오.",
       "사명, 소망 선언문을 작성하시오.",
       "안대 착용 후 에베소서 2장 8~9절을 조원들이 나누어서 암송하시오.",
-      "퀴즈라서 비밀! 안내받은 대로 수행하세요."
+      "하트 전등을 찾아 단체 사진을 찍으세요."
     ];
 
     const armorNames = {
@@ -949,6 +995,7 @@
     let wrongAttempts = 0;
     let noMoreHints = false;
     let pendingNextIndex = null;
+    let lastArmorKey = null;
 
     const roomContentEl = document.getElementById("roomContent");
     const progressFill = document.getElementById("progressFill");
@@ -966,6 +1013,12 @@
     const locationTitleEl = document.getElementById("locationTitle");
     const photoInput = document.getElementById("photoInput");
     const locationNextBtn = document.getElementById("locationNextBtn");
+
+    const gearOverlay = document.getElementById("gearOverlay");
+    const gearTitle = document.getElementById("gearTitle");
+    const gearSub = document.getElementById("gearSub");
+    const gearFigure = document.getElementById("gearFigure");
+    const gearNextBtn = document.getElementById("gearNextBtn");
 
     const characterFigure = document.getElementById("characterFigure");
     const characterGearRow = document.getElementById("characterGearRow");
@@ -1000,14 +1053,21 @@
       const oldIcons = characterFigure.querySelectorAll(".character-gear-icon");
       oldIcons.forEach((el) => el.remove());
 
-      function addIcon(emoji, extraClass) {
+      function addIcon(content, extraClass, isImage = false) {
         const span = document.createElement("span");
         span.className = "character-gear-icon " + extraClass;
-        span.textContent = emoji;
+        if (isImage) {
+          const img = document.createElement("img");
+          img.src = content;
+          img.alt = "";
+          span.appendChild(img);
+        } else {
+          span.textContent = content;
+        }
         characterFigure.appendChild(span);
       }
 
-      if (collected.has("belt"))      addIcon("🧵", "gear-belt");
+      if (collected.has("belt"))      addIcon("belt.png", "gear-belt", true);
       if (collected.has("breastplate")) addIcon("🛡️", "gear-breast");
       if (collected.has("shoes"))     addIcon("👢", "gear-shoes");
       if (collected.has("shield"))    addIcon("🛡️", "gear-shield");
@@ -1132,7 +1192,7 @@
 
           const id = btn.getAttribute("data-id");
           const choice = room.choices.find((c) => c.id === id);
-          choiceButtons.forEach((b) => b.classList.remove("correct", "wrong"));
+          choiceButtons.forEach((b) => b.classList.remove("correct"));
 
           if (choice.correct) {
             btn.classList.add("correct");
@@ -1140,15 +1200,12 @@
             feedbackEl.textContent = choice.feedback; // ✅ 정답일 때만 초록색 해설
             answered.add(room.id);
             collected.add(room.armorKey);
+            lastArmorKey = room.armorKey;
             renderInventory();
             renderCharacter();
             nextBtn.disabled = false;
           } else {
-            btn.classList.add("wrong");
-            // ❌ 오답일 때는 빨간 글씨 해설 안 보이게 (피드백 비워둠)
-            feedbackEl.className = "feedback";
-            feedbackEl.textContent = "";
-
+            // ❌ 오답일 때는 빨강 스타일/텍스트 없음
             wrongAttempts++;
             if (wrongAttempts >= 3) {
               noMoreHints = true;
@@ -1172,9 +1229,9 @@
 
       nextBtn.addEventListener("click", () => {
         if (currentIndex < rooms.length - 1) {
-          // 다음 방으로 가기 전에 다음 장소 게이트부터
+          // 다음 방으로 가기 전에: 장비 장착 연출 화면 → 그 다음 장소 게이트
           pendingNextIndex = currentIndex + 1;
-          showLocationGate(pendingNextIndex);
+          showGearOverlay(lastArmorKey);
         } else {
           // 엔딩 화면
           roomContentEl.innerHTML = `
@@ -1253,6 +1310,22 @@
       locationOverlay.style.display = "flex";
     }
 
+    function showGearOverlay(armorKey) {
+      if (!armorKey) {
+        // 혹시라도 값이 없으면 그냥 바로 장소로
+        if (pendingNextIndex != null) {
+          showLocationGate(pendingNextIndex);
+        }
+        return;
+      }
+      gearTitle.textContent = `${armorNames[armorKey]} 획득!`;
+      gearSub.textContent = `새로운 전신갑주 조각, '${armorNames[armorKey]}'를 장착했습니다.`;
+
+      // 현재 캐릭터(장비 포함)를 크게 복사
+      gearFigure.innerHTML = characterFigure.innerHTML;
+      gearOverlay.style.display = "flex";
+    }
+
     photoInput.addEventListener("change", () => {
       if (photoInput.files && photoInput.files.length > 0) {
         locationNextBtn.disabled = false;
@@ -1267,6 +1340,13 @@
         pendingNextIndex = null;
         locationOverlay.style.display = "none";
         renderRoom();
+      }
+    });
+
+    gearNextBtn.addEventListener("click", () => {
+      gearOverlay.style.display = "none";
+      if (pendingNextIndex != null) {
+        showLocationGate(pendingNextIndex);
       }
     });
   </script>
