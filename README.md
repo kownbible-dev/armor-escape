@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -406,7 +406,7 @@
       color: var(--accent);
       border: 1px dashed rgba(251, 191, 36, 0.6);
       cursor: pointer;
-      display: none; /* 처음엔 안 보이게 */
+      display: none;
     }
 
     .hint-text {
@@ -641,7 +641,7 @@
       </div>
     </div>
 
-    <!-- 장소 이동 + 사진 업로드 게이트 -->
+    <!-- 장소 이동 + 사진/영상 업로드 게이트 -->
     <div class="location-overlay" id="locationOverlay">
       <div class="location-card">
         <h2 class="location-title">다음 장소로 이동!</h2>
@@ -649,19 +649,22 @@
           장소 안내 문구가 여기에 표시됩니다.
         </p>
         <div class="location-file">
-          <div>📷 해당 장소에서 사진을 찍고 업로드하세요.</div>
-          <input type="file" id="photoInput" accept="image/*" />
+          <div>📷 해당 장소에서 <strong>사진 또는 영상</strong>을 찍고 업로드하세요.</div>
+          <input type="file" id="photoInput" accept="image/*,video/*" />
         </div>
-        <button class="location-btn" id="locationNextBtn" disabled>다음 방 열기 →</button>
+        <button class="location-btn" id="locationNextBtn" disabled>이제 문제 풀기 →</button>
         <div class="location-hint">
-          * 사진 파일 내용은 자동으로 저장되지는 않지만,<br />
-          &nbsp;실제 모임에서는 리더가 업로드 여부만 확인하면 됩니다.
+          * 업로드한 파일은 이 브라우저 안에서만 사용되고,<br />
+          &nbsp;실제 서버에는 저장되지 않습니다. (리더가 현장에서만 확인해 주세요)
         </div>
       </div>
     </div>
   </div>
 
   <script>
+    // ✅ 여기에 네 구글폼 URL을 넣어줘!
+    const googleFormUrl = "https://forms.gle/여기에_네_폼_URL_붙여넣기";
+
     const rooms = [
       {
         id: 1,
@@ -911,14 +914,14 @@
       }
     ];
 
+    // 각 방(0~5)에 대응하는 장소 설명
     const locations = [
-      null,
-      "장소 1: 교회 입구(또는 지정한 장소 1)에 이동해서 팀 전체가 나온 사진을 찍고 업로드하세요.",
-      "장소 2: 본당 안(또는 지정한 장소 2)에서 말씀을 상징하는 곳 앞에서 사진을 찍고 업로드하세요.",
-      "장소 3: 교육관 또는 교실(장소 3) 앞에서 팀이 함께 서 있는 사진을 업로드하세요.",
-      "장소 4: 교회 십자가가 보이는 지점(또는 장소 4)에서 사진을 찍어 업로드하세요.",
-      "장소 5: 친교 공간(또는 지정한 장소 5)에서 서로 웃는 모습의 사진을 업로드하세요.",
-      "장소 6: 마지막 모임 장소(또는 지정한 장소 6)에서 마무리 사진을 찍고 업로드하세요."
+      "1번 장소: 중고등부실로 이동해서 팀이 함께 나온 사진 또는 영상을 업로드하세요.",
+      "2번 장소: 성가1연습실 앞 또는 안에서 사진 또는 영상을 업로드하세요.",
+      "3번 장소: 1층 로비 중앙에서 팀이 함께 나온 사진 또는 영상을 업로드하세요.",
+      "4번 장소: 유초등부실 근처/앞에서 사진 또는 영상을 업로드하세요.",
+      "5번 장소: 청년부실 안에서 팀 사진 또는 영상을 업로드하세요.",
+      "6번 장소: (퀴즈라서 비밀! 안내받은 장소에서 사진 또는 영상을 업로드하세요.)"
     ];
 
     const armorNames = {
@@ -963,7 +966,9 @@
         headerSub.textContent = `${playerName}의 전신갑주 방탈출 퀘스트`;
       }
       startOverlay.style.display = "none";
-      renderRoom();
+      // 첫 방(0번) 들어가기 전, 1번 장소 게이트부터
+      pendingNextIndex = 0;
+      showLocationGate(pendingNextIndex);
     });
 
     function renderInventory() {
@@ -981,10 +986,7 @@
     }
 
     function renderCharacter() {
-      // 중앙 캐릭터 그림
       characterFigure.innerHTML = "🧍";
-
-      // 이미 올려둔 장비 아이콘 제거
       const oldIcons = characterFigure.querySelectorAll(".character-gear-icon");
       oldIcons.forEach((el) => el.remove());
 
@@ -1002,7 +1004,6 @@
       if (collected.has("helmet"))    addIcon("🪖", "gear-helmet");
       if (collected.has("sword"))     addIcon("⚔️", "gear-sword");
 
-      // 아래 장비 목록 태그
       characterGearRow.innerHTML = "";
       Object.entries(armorNames).forEach(([key, label]) => {
         const div = document.createElement("div");
@@ -1097,6 +1098,8 @@
       hintBtn.style.display = "none";
       if (noMoreHints) {
         hintText.textContent = "힌트 사용 가능 횟수를 모두 소진했습니다.";
+      } else {
+        hintText.textContent = "";
       }
 
       hintBtn.addEventListener("click", () => {
@@ -1108,6 +1111,15 @@
       choiceButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
           if (answered.has(room.id)) return;
+
+          // 다른 알파벳을 누를 때마다 빨간 해설 & 힌트 초기화
+          feedbackEl.textContent = "";
+          feedbackEl.className = "feedback";
+          if (!noMoreHints) {
+            hintText.textContent = "";
+            hintBtn.style.display = "none";
+          }
+
           const id = btn.getAttribute("data-id");
           const choice = room.choices.find((c) => c.id === id);
           choiceButtons.forEach((b) => b.classList.remove("correct", "wrong"));
@@ -1115,7 +1127,7 @@
           if (choice.correct) {
             btn.classList.add("correct");
             feedbackEl.className = "feedback ok";
-            feedbackEl.textContent = choice.feedback;
+            feedbackEl.textContent = choice.feedback; // 정답일 때만 초록색 해설
             answered.add(room.id);
             collected.add(room.armorKey);
             renderInventory();
@@ -1124,7 +1136,7 @@
           } else {
             btn.classList.add("wrong");
             feedbackEl.className = "feedback no";
-            feedbackEl.textContent = choice.feedback;
+            feedbackEl.textContent = choice.feedback; // 빨간 해설 (다음 클릭 시 초기화됨)
 
             wrongAttempts++;
             if (wrongAttempts >= 3) {
@@ -1149,15 +1161,11 @@
 
       nextBtn.addEventListener("click", () => {
         if (currentIndex < rooms.length - 1) {
-          const targetIndex = currentIndex + 1;
-          pendingNextIndex = targetIndex;
-          const desc = locations[targetIndex] || "다음 장소로 이동한 뒤 사진을 업로드하세요.";
-          locationText.textContent = desc;
-          photoInput.value = "";
-          locationNextBtn.disabled = true;
-          locationOverlay.style.display = "flex";
+          // 다음 방으로 가기 전에 다음 장소 게이트부터
+          pendingNextIndex = currentIndex + 1;
+          showLocationGate(pendingNextIndex);
         } else {
-          // 엔딩
+          // 엔딩 화면
           roomContentEl.innerHTML = `
             <div class="room-label">ENDING · 전신갑주 완성</div>
             <h2 class="room-title">
@@ -1183,16 +1191,19 @@
             </div>
 
             <p class="question-text" style="margin-top:14px;">
-              이 방탈출을 함께 한 청년들과, 각 전신갑주가 <strong>자기 삶의 어떤 영역</strong>에
-              필요할지 나누어 보세요. 오늘 내게 가장 필요한 전신갑주는 무엇인가요?
+              마지막 미션! 오늘 찍은 사진/영상 중 베스트 1개를
+              <strong>구글폼에 업로드</strong>해서 함께 나눠 주세요.
             </p>
 
             <div class="footer-row">
-              <button class="nav-btn primary" id="restartBtn">다시 하기 ↺</button>
+              <button class="nav-btn" id="restartBtn">다시 하기 ↺</button>
+              <button class="nav-btn primary" id="formBtn">최종 사진 업로드하기 📤</button>
             </div>
           `;
 
           const restartBtn = document.getElementById("restartBtn");
+          const formBtn = document.getElementById("formBtn");
+
           restartBtn.addEventListener("click", () => {
             currentIndex = 0;
             collected.clear();
@@ -1205,29 +1216,47 @@
               "바울의 전도여행과 전신갑주로 떠나는 방탈출 퀘스트";
             renderCharacter();
           });
+
+          formBtn.addEventListener("click", () => {
+            if (googleFormUrl && googleFormUrl.startsWith("http")) {
+              window.open(googleFormUrl, "_blank");
+            } else {
+              alert("구글폼 주소가 아직 설정되지 않았습니다.");
+            }
+          });
+
           renderInventory();
           renderCharacter();
           updateProgress();
         }
       });
-
-      photoInput.addEventListener("change", () => {
-        if (photoInput.files && photoInput.files.length > 0) {
-          locationNextBtn.disabled = false;
-        } else {
-          locationNextBtn.disabled = true;
-        }
-      });
-
-      locationNextBtn.onclick = () => {
-        if (pendingNextIndex != null) {
-          currentIndex = pendingNextIndex;
-          pendingNextIndex = null;
-          locationOverlay.style.display = "none";
-          renderRoom();
-        }
-      };
     }
+
+    function showLocationGate(index) {
+      const desc = locations[index] || "다음 장소로 이동한 뒤 사진 또는 영상을 업로드하세요.";
+      locationText.textContent = desc;
+      photoInput.value = "";
+      locationNextBtn.disabled = true;
+      locationOverlay.style.display = "flex";
+    }
+
+    photoInput.addEventListener("change", () => {
+      if (photoInput.files && photoInput.files.length > 0) {
+        locationNextBtn.disabled = false;
+      } else {
+        locationNextBtn.disabled = true;
+      }
+    });
+
+    locationNextBtn.addEventListener("click", () => {
+      if (pendingNextIndex != null) {
+        currentIndex = pendingNextIndex;
+        pendingNextIndex = null;
+        locationOverlay.style.display = "none";
+        renderRoom();
+      }
+    });
   </script>
 </body>
 </html>
+
