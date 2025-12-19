@@ -175,6 +175,10 @@
       gap: 12px;
     }
 
+/* ✅ 문제 화면에서는 캐릭터 패널(위 이모지) 숨김 */
+.character-panel { display: none; }
+
+
     .character-figure {
   width: 64px;
   height: 64px;
@@ -195,10 +199,9 @@
 }
 
 
-    .character-gear-icon {
-  position: absolute;
-  z-index: 4;     /* 기본 장비 레이어 */
-  pointer-events: none;
+   .character-gear-icon{
+  position:absolute;
+  pointer-events:none;
 }
 
 
@@ -681,11 +684,9 @@
     border-radius: 36px;
   }
 
-  /* ✅ 모바일에서 벨트 위치 살짝 보정(선택) */
-  .gear-belt { bottom: 22px; }
+ 
 }
 
-.gear-figure .gear-belt { bottom: 28px; }
 
 
     .gear-figure .character-gear-icon img {
@@ -693,17 +694,7 @@
       height: 70px;
     }
 
-    /* 상단 작은 캐릭터 패널 */
-.character-figure .character-gear-icon img{
-  width: 26px;
-  height: 26px;
-}
 
-/* 장비 획득(큰) 화면 */
-.gear-figure .character-gear-icon img{
-  width: 70px;
-  height: 70px;
-}
 
 
 .character-figure .gear-belt img,
@@ -727,6 +718,131 @@
   }
 }
 
+/* ✅ 벨트 이미지가 흰 사각형(캔버스)이 큰 경우: 컨테이너로 잘라내기 */
+.gear-figure .gear-belt{
+  width: 220px;
+  height: 90px;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.gear-figure .gear-belt img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* ✅ 주변 흰 여백을 잘라냄 */
+  object-position: center;
+  transform: scale(1.25);     /* ✅ 벨트가 더 꽉 차게 (1.1~1.5 조절) */
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
+}
+
+/* =========================
+   ✅ 캐릭터 레이어/크기 정리 (최종)
+========================= */
+
+/* 장비 아이콘 기본 */
+.character-gear-icon{
+  position:absolute;
+  pointer-events:none;
+}
+
+/* 기본 아이콘 크기(작은 패널/기본) */
+.character-gear-icon img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+  display:block;
+}
+
+/* 큰 장착 화면 아이콘 크기 */
+.gear-figure .character-gear-icon img{
+  width:70px;
+  height:70px;
+}
+
+/* ✅ 인형 느낌: 베이스 이모지 세로로 살짝 늘리기 (큰 장착 화면에서만) */
+.gear-figure .base-emoji{
+  display:block;
+  line-height:1;
+  transform: scaleY(1.18);
+  transform-origin:center;
+  position:relative;
+  z-index:1;
+}
+
+/* =========================
+   ✅ 장비 위치 (큰 장착 화면 전용)
+   - top 기준으로 통일 (충돌 제거)
+========================= */
+.gear-figure .gear-helmet{
+  left:50%;
+  top:6%;
+  transform: translateX(-50%);
+  z-index:6;
+}
+
+.gear-figure .gear-breast{
+  left:50%;
+  top:34%;
+  transform: translate(-50%, -50%);
+  z-index:4;
+}
+
+/* 벨트(큰 화면) */
+.gear-figure .gear-belt{
+  left:50%;
+  top:55%;
+  transform: translate(-50%, -50%);
+  z-index:5;
+
+  /* 흰 여백이 “큰 캔버스”일 때만 잘라내기 */
+  width:220px;
+  height:90px;
+  overflow:hidden;
+  border-radius:18px;
+}
+
+.gear-figure .gear-belt img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  transform: scale(1.25);
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
+}
+
+/* 신발(큰 화면) */
+.gear-figure .gear-shoes{
+  left:50%;
+  top:82%;
+  transform: translate(-50%, -50%);
+  z-index:3;
+}
+
+/* 방패: 몸 앞(최전방) */
+.gear-figure .gear-shield{
+  left:50%;
+  top:52%;
+  transform: translate(-50%, -50%);
+  z-index:9;
+}
+
+.gear-figure .gear-sword{
+  right:6%;
+  top:46%;
+  z-index:8;
+}
+
+/* =========================
+   ✅ 장비 위치 (작은 패널/작은 캐릭터용)
+========================= */
+.character-figure .gear-helmet{ left:50%; top:2%; transform:translateX(-50%); z-index:6; }
+.character-figure .gear-breast{ left:50%; top:38%; transform:translate(-50%,-50%); z-index:4; }
+.character-figure .gear-belt  { left:50%; top:56%; transform:translate(-50%,-50%); z-index:5; }
+.character-figure .gear-shoes { left:50%; top:88%; transform:translate(-50%,-50%); z-index:3; }
+.character-figure .gear-shield{ left:50%; top:52%; transform:translate(-50%,-50%); z-index:7; }
+.character-figure .gear-sword { right:4px; top:42%; z-index:6; }
+
+.character-panel { display: none; }
 
   </style>
 </head>
@@ -1442,7 +1558,8 @@
       gearSub.textContent = `새로운 전신갑주 조각, '${armorNames[armorKey]}'를 장착했습니다.`;
 
       // 현재 캐릭터(장비 포함)를 크게 복사
-      gearFigure.innerHTML = characterFigure.innerHTML;
+      gearFigure.innerHTML = `<span class="base-emoji">🧍</span>` + characterFigure.innerHTML.replace(/<span class="base-emoji">🧍<\/span>/g, "");
+
       gearOverlay.style.display = "flex";
     }
 
