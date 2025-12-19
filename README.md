@@ -605,10 +605,10 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:40%;
+      top:20%;
       transform: translate(-50%, -50%);
       z-index:4;
-       font-size: 50px;
+       font-size: 60px;
     }
 
     /* ✅ 방패: 몸 “앞”으로 (가장 위 레이어) */
