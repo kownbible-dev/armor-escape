@@ -580,7 +580,7 @@
     .gear-figure .base-emoji{
   font-size: 1em;              /* gear-figure font-size 그대로 사용 */
   line-height: 1;
-  transform: translateY(0) scaleY(1.22);
+  transform: translateY(0) scaleY(1.30);
   transform-origin: center;
 }}
 
@@ -607,6 +607,7 @@
       top:34%;
       transform: translate(-50%, -50%);
       z-index:4;
+       font-size: 50px;
     }
 
     /* ✅ 방패: 몸 “앞”으로 (가장 위 레이어) */
@@ -615,7 +616,7 @@
       top:52%;
       transform: translate(-50%, -50%);
       z-index:9;
-       font-size: 20px; 
+       font-size: 50px; 
     }
 
     /* ✅ 벨트: 허리 */
@@ -627,8 +628,8 @@
 }
 
 .gear-figure .gear-belt img{
-  width:10px;
-  height:30px;
+  width:5px;
+  height:20px;
   object-fit:contain;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
 }
@@ -638,6 +639,7 @@
       top:82%;
       transform: translate(-50%, -50%);
       z-index:3;
+      font-size: 50px;
     }
 
     .gear-figure .gear-sword{
