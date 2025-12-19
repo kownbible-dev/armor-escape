@@ -185,11 +185,22 @@
   overflow: hidden;
 }
 
+.base-emoji{
+  display:block;
+  line-height:1;
+  transform: scaleY(1.18);      /* 세로로 더 길게: 1.10~1.30 조절 */
+  transform-origin: center;
+  z-index: 1;
+  position: relative;
+}
+
 
     .character-gear-icon {
-      position: absolute;
-      font-size: 20px;
-    }
+  position: absolute;
+  z-index: 4;     /* 기본 장비 레이어 */
+  pointer-events: none;
+}
+
 
     .character-gear-icon img {
       width: 26px;
@@ -198,11 +209,11 @@
     }
 
    /* 벨트: 허리 중앙에 '착용'된 것처럼 */
-.gear-belt {
-  left: 50%;
-  bottom: 18px;              /* 허리 높이 (원하면 14~26px 사이로 조절) */
-  transform: translateX(-50%);
-  z-index: 5;                /* 🧍 이모지 위로 */
+.gear-belt{
+  left:50%;
+  top:56%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
 }
 
 /* 벨트 이미지 크기(작은 캐릭터 패널용) */
@@ -213,11 +224,39 @@
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
 }
 
-    .gear-breast    { top: 16px; }
-    .gear-shoes     { bottom: 4px; right: 10px; }
-    .gear-shield    { left: 6px; top: 24px; }
-    .gear-helmet    { top: 2px; }
-    .gear-sword     { right: 4px; top: 18px; }
+    .gear-breast{
+  left:50%;
+  top:38%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.gear-shield{
+  left:50%;
+  top:52%;
+  transform: translate(-50%, -50%);
+  z-index: 7;
+}
+
+.gear-helmet{
+  left:50%;
+  top:2%;
+  transform: translate(-50%, 0);
+  z-index: 6;
+}
+
+.gear-shoes{
+  left:50%;
+  bottom:-6px;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.gear-sword{
+  right:4px;
+  top:42%;
+  z-index: 6;
+}
 
     .character-info {
       flex: 1;
@@ -654,6 +693,26 @@
       height: 70px;
     }
 
+    /* 상단 작은 캐릭터 패널 */
+.character-figure .character-gear-icon img{
+  width: 26px;
+  height: 26px;
+}
+
+/* 장비 획득(큰) 화면 */
+.gear-figure .character-gear-icon img{
+  width: 70px;
+  height: 70px;
+}
+
+
+.character-figure .gear-belt img,
+.gear-figure .gear-belt img{
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
+}
+
+
     /* 큰 장비 장착 화면에서는 벨트 더 크게 */
 .gear-figure .gear-belt img {
   width: 180px;              /* 원하면 150~220px */
@@ -695,9 +754,9 @@
 
     <!-- 캐릭터 패널 -->
     <div class="character-panel">
-      <div class="character-figure" id="characterFigure">
-        🧍
-      </div>
+    <div class="character-figure" id="characterFigure">
+  <span class="base-emoji">🧍</span>
+</div>
       <div class="character-info">
         <div class="character-info-title">내 캐릭터 장비 상태</div>
         <div class="character-gear-row" id="characterGearRow"></div>
@@ -760,8 +819,8 @@
           전신갑주 조각이 장착되었습니다.
         </p>
         <div class="gear-figure" id="gearFigure">
-          🧍
-        </div>
+  <span class="base-emoji">🧍</span>
+</div>
         <button class="gear-btn" id="gearNextBtn">다음 장소로 이동 →</button>
       </div>
     </div>
@@ -1109,7 +1168,7 @@
     }
 
     function renderCharacter() {
-      characterFigure.innerHTML = "🧍";
+     characterFigure.innerHTML = '<span class="base-emoji">🧍</span>';
       const oldIcons = characterFigure.querySelectorAll(".character-gear-icon");
       oldIcons.forEach((el) => el.remove());
 
