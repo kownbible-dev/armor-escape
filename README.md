@@ -696,11 +696,11 @@
       addIcon("https://i.postimg.cc/HWbS3KXs/belt-transparent-cropped.png", "gear-belt", true);
     }
 
-    if (collected.has("breastplate")) addIcon("https://i.postimg.cc/hGkhv18W/sword.png", "gear-breast");
-    if (collected.has("shoes"))       addIcon("https://i.postimg.cc/gkjd96RD/shoes.png", "gear-shoes");
-    if (collected.has("shield"))      addIcon("https://i.postimg.cc/BbqSPYj0/shield.png", "gear-shield");
-    if (collected.has("helmet"))      addIcon("https://i.postimg.cc/fyL4h63T/helmet.png", "gear-helmet");
-    if (collected.has("sword"))       addIcon("https://i.postimg.cc/pL92jnLf/breastplate.png", "gear-sword");
+    if (collected.has("breastplate")) addIcon("https://i.postimg.cc/hGkhv18W/sword.png", "gear-breast", true );
+    if (collected.has("shoes"))       addIcon("https://i.postimg.cc/gkjd96RD/shoes.png", "gear-shoes" , true);
+    if (collected.has("shield"))      addIcon("https://i.postimg.cc/BbqSPYj0/shield.png", "gear-shield" , true );
+    if (collected.has("helmet"))      addIcon("https://i.postimg.cc/fyL4h63T/helmet.png", "gear-helmet" , true);
+    if (collected.has("sword"))       addIcon("https://i.postimg.cc/pL92jnLf/breastplate.png", "gear-sword" , true);
 
     characterGearRow.innerHTML = "";
     Object.entries(armorNames).forEach(([key,label])=>{
