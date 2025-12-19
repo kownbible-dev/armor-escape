@@ -266,7 +266,7 @@
     .gear-figure .base-emoji{
       font-size:1em;       /* gear-figure font-size 그대로 */
       line-height:1;
-      transform: scaleY(1.22); /* 인형 비율 */
+      transform: scaleY(1.25); /* 인형 비율 */
       transform-origin:center;
     }
 
@@ -277,38 +277,38 @@
 
     /* ===== 큰 화면 장비 위치/크기 ===== */
     .gear-figure .gear-helmet{
-      left:50%; top: var(--y-helmet);
+      left:50%; top: 23%;
       transform: translateX(-50%) rotate(-4deg);
-      z-index:6; font-size: var(--sz-helmet);
+      z-index:6; font-size: 46px;
     }
     .gear-figure .gear-breast{
-      left:50%; top: var(--y-breast);
+      left:50%; top: 48;
       transform: translate(-50%,-50%);
-      z-index:4; font-size: var(--sz-breast);
+      z-index:4; font-size: 62px;
     }
     .gear-figure .gear-shield{
-      left:50%; top: var(--y-shield);
+      left:50%; top: 50%;
       transform: translate(-50%,-50%);
-      z-index:9; font-size: var(--sz-shield);
+      z-index:9; font-size: 70px;
     }
     .gear-figure .gear-shoes{
-      left:50%; top: var(--y-shoes);
+      left:50%; top: 73%;
       transform: translate(-50%,-50%);
-      z-index:3; font-size: var(--sz-shoes);
+      z-index:3; font-size: 34px;
     }
     .gear-figure .gear-sword{
-      right:6%; top: var(--y-sword);
-      z-index:8; font-size: var(--sz-sword);
+      right:6%; top: 48%;
+      z-index:8; font-size: 58px;
     }
 
     /* ✅ 벨트(큰 화면): 투명 크롭 PNG이므로 “잘라내기” 불필요 */
     .gear-figure .gear-belt{
-      left:50%; top: var(--y-belt);
+      left:50%; top: 57%;
       transform: translate(-50%,-50%);
       z-index:5;
     }
     .gear-figure .gear-belt img{
-      width: var(--sz-belt);
+      width: 52px;
       height:auto;
       object-fit:contain;
       filter: drop-shadow(0 6px 10px rgba(0,0,0,.55));
