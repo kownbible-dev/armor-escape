@@ -200,7 +200,22 @@
       object-fit: contain;
     }
 
-    .gear-belt      { bottom: 6px; }
+   /* 벨트: 허리 중앙에 '착용'된 것처럼 */
+.gear-belt {
+  left: 50%;
+  bottom: 18px;              /* 허리 높이 (원하면 14~26px 사이로 조절) */
+  transform: translateX(-50%);
+  z-index: 5;                /* 🧍 이모지 위로 */
+}
+
+/* 벨트 이미지 크기(작은 캐릭터 패널용) */
+.character-figure .gear-belt img {
+  width: 56px;               /* 원하면 48~70px */
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
+}
+
     .gear-breast    { top: 16px; }
     .gear-shoes     { bottom: 4px; right: 10px; }
     .gear-shield    { left: 6px; top: 24px; }
@@ -614,6 +629,13 @@
       width: 70px;
       height: 70px;
     }
+
+    /* 큰 장비 장착 화면에서는 벨트 더 크게 */
+.gear-figure .gear-belt img {
+  width: 180px;              /* 원하면 150~220px */
+  height: auto;
+}
+
   </style>
 </head>
 <body>
