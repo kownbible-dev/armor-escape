@@ -616,7 +616,7 @@
       top:52%;
       transform: translate(-50%, -50%);
       z-index:9;
-       font-size: 50px; 
+       font-size: 72px; 
     }
 
     /* ✅ 벨트: 허리 */
@@ -628,8 +628,8 @@
 }
 
 .gear-figure .gear-belt img{
-  width:5px;
-  height:20px;
+  width:100px;
+  height:auto;
   object-fit:contain;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
 }
@@ -639,7 +639,7 @@
       top:82%;
       transform: translate(-50%, -50%);
       z-index:3;
-      font-size: 50px;
+      font-size: 30px;
     }
 
     .gear-figure .gear-sword{
