@@ -638,20 +638,23 @@
   const characterFigure = document.getElementById("characterFigure");
   const characterGearRow = document.getElementById("characterGearRow");
 
-  startBtn.addEventListener("click", () => {
-    playerName = playerNameInput.value.trim();
+  // ✅ 시작 버튼: 연출 없이 즉시 시작 (에러 가능성 최소화)
+startBtn.addEventListener("click", () => {
+  try {
+    playerName = (playerNameInput?.value || "").trim();
     if (playerName) headerSub.textContent = `${playerName}의 전신갑주 방탈출 퀘스트`;
 
-    const startCard = document.querySelector(".start-card");
-    startBtn.disabled = true;
+    // 시작 오버레이 닫고, 0번 장소 게이트 오픈
+    startOverlay.style.display = "none";
+    pendingNextIndex = 0;
+    showLocationGate(0);
+  } catch (e) {
+    // 혹시라도 여기서 에러 나면 바로 알림 띄우기
+    alert("시작 처리 중 오류가 발생했습니다: " + e.message);
+    console.error(e);
+  }
+});
 
-    const goNext = () => {
-      startOverlay.style.display = "none";
-      pendingNextIndex = 0;
-      showLocationGate(pendingNextIndex);
-      startBtn.disabled = false;
-      if (startCard) startCard.classList.remove("start-pop");
-    };
 
     if (!startCard) { goNext(); return; }
 
