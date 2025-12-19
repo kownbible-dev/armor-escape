@@ -282,7 +282,7 @@
       z-index:6; font-size: 46px;
     }
     .gear-figure .gear-breast{
-      left:50%; top: 23%;
+      left:50%; top: 19%;
       transform: translate(-50%,-50%);
       z-index:4; font-size: 62px;
     }
@@ -292,7 +292,7 @@
       z-index:9; font-size: 70px;
     }
     .gear-figure .gear-shoes{
-      left:50%; top: 79%;
+      left:50%; top: 85%;
       transform: translate(-50%,-50%);
       z-index:3; font-size: 34px;
     }
