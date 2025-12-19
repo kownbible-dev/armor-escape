@@ -459,6 +459,11 @@
       text-align: center;
     }
 
+.start-card{
+  max-width: 840px;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 58%);
+}
+
     .start-title,
     .location-title,
     .gear-title {
@@ -605,7 +610,7 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:40%;
+      top:35%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 60px;
@@ -637,7 +642,7 @@
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
-      top:110%;
+      top:30%;
       transform: translate(-50%, -50%);
       z-index:3;
       font-size: 30px;
@@ -683,6 +688,31 @@
         max-width: 260px;
         max-height: 105px;
       }
+
+      /* ✅ 엔딩: 풀착장 캐릭터 크게 보여주기 */
+.ending-figure-wrap{
+  margin: 14px auto 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.ending-figure{
+  width: min(320px, 82vw);
+  height: min(320px, 82vw);
+  max-width: 320px;
+  max-height: 320px;
+  font-size: min(120px, 30vw);
+  border-radius: 50px;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid rgba(251,191,36,0.9);
+  box-shadow: 0 0 42px rgba(251,191,36,0.6);
+}
+
     }
   </style>
 </head>
@@ -1090,6 +1120,13 @@
         <h2 class="room-title">${room.title} ${difficultyBadge}</h2>
         <p class="room-subtitle">${room.subtitle}</p>
 
+<div class="ending-figure-wrap">
+  <div class="ending-figure gear-figure" id="endingFigure">
+    <span class="base-emoji">🧍</span>
+  </div>
+</div>
+
+
         <div class="section-label">단서</div>
         <div class="clue-box">
           <ul>${room.clues.map((c) => `<li>${c}</li>`).join("")}</ul>
@@ -1209,6 +1246,20 @@
             </div>
           `;
 
+// ✅ 엔딩에서는 무조건 6개 풀착장으로 보여주기
+Object.keys(armorNames).forEach(k => collected.add(k));
+renderInventory();
+renderCharacter(); // 상단 작은 캐릭터(숨김이어도 내부 DOM은 갱신됨)
+
+const endingFigure = document.getElementById("endingFigure");
+if (endingFigure) {
+  // characterFigure의 장비 DOM을 그대로 복사해서 큰 엔딩 캐릭터에 붙이기
+  endingFigure.innerHTML =
+    `<span class="base-emoji">🧍</span>` +
+    characterFigure.innerHTML.replace(/<span class="base-emoji">🧍<\/span>/g, "");
+}
+
+          
           document.getElementById("restartBtn").addEventListener("click", () => {
             currentIndex = 0;
             collected.clear();
