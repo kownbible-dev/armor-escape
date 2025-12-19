@@ -580,7 +580,7 @@
     .gear-figure .base-emoji{
   font-size: 1em;              /* gear-figure font-size 그대로 사용 */
   line-height: 1;
-  transform: translateY(0) scaleY(1.30);
+  transform: translateY(0) scaleY(1.50);
   transform-origin: center;
 }}
 
@@ -605,7 +605,7 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:55%;
+      top:60%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 60px;
