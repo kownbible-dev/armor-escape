@@ -282,7 +282,7 @@
       z-index:6; font-size: 46px;
     }
     .gear-figure .gear-breast{
-      left:50%; top:50%;
+      left:50%; top:56%;
       transform: translate(-50%,-50%);
       z-index:4; font-size: 62px;
     }
