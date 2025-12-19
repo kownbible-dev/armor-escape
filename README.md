@@ -292,7 +292,7 @@
       z-index:9; font-size: 70px;
     }
     .gear-figure .gear-shoes{
-      left:50%; top: 85%;
+      left:50%; top: 80%;
       transform: translate(-50%,-50%);
       z-index:3; font-size: 34px;
     }
