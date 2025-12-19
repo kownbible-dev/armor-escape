@@ -605,7 +605,7 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:60%;
+      top:40%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 50px;
