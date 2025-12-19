@@ -605,7 +605,7 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:34%;
+      top:40%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 60px;
@@ -637,7 +637,7 @@
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
-      top:65%;
+      top:50%;
       transform: translate(-50%, -50%);
       z-index:3;
       font-size: 30px;
