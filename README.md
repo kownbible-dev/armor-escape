@@ -602,7 +602,7 @@
     ========================= */
     .gear-figure .gear-helmet{
       left:50%;
-      top:4%;
+      top:20%;
         transform: translateX(-50%) rotate(-4deg);
       z-index:6;
       font-size: 50px;
@@ -610,7 +610,7 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:35%;
+      top:37%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 60px;
@@ -642,7 +642,7 @@
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
-      top:30%;
+      top:40%;
       transform: translate(-50%, -50%);
       z-index:3;
       font-size: 30px;
