@@ -1,7 +1,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>전신갑주 방탈출 퀘스트</title>
+  <title>전신갑주를 취하라</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
