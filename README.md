@@ -597,7 +597,7 @@
     ========================= */
     .gear-figure .gear-helmet{
       left:50%;
-      top:7%;
+      top:4%;
         transform: translateX(-50%) rotate(-4deg);
       z-index:6;
       font-size: 50px;
@@ -605,7 +605,7 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:60%;
+      top:55%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 60px;
@@ -637,7 +637,7 @@
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
-      top:50%;
+      top:70%;
       transform: translate(-50%, -50%);
       z-index:3;
       font-size: 30px;
