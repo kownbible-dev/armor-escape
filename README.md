@@ -282,7 +282,7 @@
       z-index:6; font-size: 46px;
     }
     .gear-figure .gear-breast{
-      left:50%; top: 48;
+      left:50%; top: 53;
       transform: translate(-50%,-50%);
       z-index:4; font-size: 62px;
     }
@@ -306,6 +306,7 @@
       left:50%; top: 57%;
       transform: translate(-50%,-50%);
       z-index:5;
+      fontsize:20px;
     }
     .gear-figure .gear-belt img{
       width: 52px;
