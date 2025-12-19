@@ -580,7 +580,7 @@
     .gear-figure .base-emoji{
   font-size: 1em;              /* gear-figure font-size 그대로 사용 */
   line-height: 1;
-  transform: translateY(0) scaleY(1.50);
+  transform: translateY(0) scaleY(1.80);
   transform-origin: center;
 }}
 
@@ -614,7 +614,7 @@
     /* ✅ 방패: 몸 “앞”으로 (가장 위 레이어) */
     .gear-figure .gear-shield{
       left:50%;
-      top:52%;
+      top:50%;
       transform: translate(-50%, -50%);
       z-index:9;
        font-size: 72px; 
