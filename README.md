@@ -176,18 +176,15 @@
     }
 
     .character-figure {
-      width: 70px;
-      height: 70px;
-      border-radius: 18px;
-      background: radial-gradient(circle at top, #1f2937 0, #020617 80%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      position: relative;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  font-size: 30px;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
 
     .character-gear-icon {
       position: absolute;
@@ -609,21 +606,48 @@
       box-shadow: 0 32px 80px rgba(0,0,0,0.85);
     }
 
-    .gear-figure {
-      margin: 18px auto 12px;
-      width: 300px;
-      height: 300px;
-      border-radius: 50px;
-      background: radial-gradient(circle at top, #1f2937 0, #020617 80%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 110px;
-      position: relative;
-      overflow: hidden;
-      border: 3px solid rgba(251,191,36,0.9);
-      box-shadow: 0 0 42px rgba(251,191,36,0.6);
-    }
+   .gear-figure {
+  margin: 18px auto 12px;
+
+  /* ✅ 모바일에서 화면 밖으로 안 나가게 */
+  width: min(300px, 78vw);
+  height: min(300px, 78vw);
+  max-width: 300px;
+  max-height: 300px;
+  font-size: min(110px, 28vw);
+
+  border-radius: 50px;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid rgba(251,191,36,0.9);
+  box-shadow: 0 0 42px rgba(251,191,36,0.6);
+}
+
+@media (max-width: 480px) {
+  .character-figure {
+    width: 56px;
+    height: 56px;
+    font-size: 26px;
+  }
+
+  /* ✅ 장비 장착 큰 캐릭터 박스 모바일 최적화 */
+  .gear-figure {
+    width: 72vw;
+    height: 72vw;
+    font-size: 26vw;
+    border-radius: 36px;
+  }
+
+  /* ✅ 모바일에서 벨트 위치 살짝 보정(선택) */
+  .gear-belt { bottom: 22px; }
+}
+
+.gear-figure .gear-belt { bottom: 28px; }
+
 
     .gear-figure .character-gear-icon img {
       width: 70px;
@@ -635,6 +659,15 @@
   width: 180px;              /* 원하면 150~220px */
   height: auto;
 }
+
+@media (max-width: 480px) {
+  .character-figure {
+    width: 56px;
+    height: 56px;
+    font-size: 26px;
+  }
+}
+
 
   </style>
 </head>
