@@ -637,7 +637,7 @@
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
-      top:120%;
+      top:110%;
       transform: translate(-50%, -50%);
       z-index:3;
       font-size: 30px;
