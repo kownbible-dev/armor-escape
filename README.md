@@ -713,6 +713,23 @@
   box-shadow: 0 0 42px rgba(251,191,36,0.6);
 }
 
+/* ✅ 시작 버튼 클릭 시 카드 '팝' 연출 */
+.start-card{
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+.start-card.start-pop{
+  animation: startPop 420ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+@keyframes startPop{
+  0%   { transform: scale(1);    opacity: 1; }
+  55%  { transform: scale(1.04); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+
     }
   </style>
 </head>
@@ -1029,12 +1046,23 @@
     const characterGearRow = document.getElementById("characterGearRow");
 
     startBtn.addEventListener("click", () => {
-      playerName = playerNameInput.value.trim();
-      if (playerName) headerSub.textContent = `${playerName}의 전신갑주 방탈출 퀘스트`;
-      startOverlay.style.display = "none";
-      pendingNextIndex = 0;
-      showLocationGate(pendingNextIndex);
-    });
+  playerName = playerNameInput.value.trim();
+  if (playerName) {
+    headerSub.textContent = `${playerName}의 전신갑주 방탈출 퀘스트`;
+  }
+
+  // ✅ 시작 카드 팝 연출 후 화면 전환
+  const startCard = document.querySelector(".start-card");
+  startCard.classList.add("start-pop");
+
+  startCard.addEventListener("animationend", () => {
+    startOverlay.style.display = "none";
+    pendingNextIndex = 0;
+    showLocationGate(pendingNextIndex);
+    startCard.classList.remove("start-pop"); // 다음 시작을 위해 초기화
+  }, { once: true });
+});
+
 
     function renderInventory() {
       inventoryBadges.innerHTML = "";
