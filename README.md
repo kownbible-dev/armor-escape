@@ -277,7 +277,7 @@
 
     /* ===== 큰 화면 장비 위치/크기 ===== */
     .gear-figure .gear-helmet{
-      left:50%; top: 23%;
+      left:50%; top: 10%;
       transform: translateX(-50%) rotate(-4deg);
       z-index:6; font-size: 46px;
     }
@@ -297,7 +297,7 @@
       z-index:3; font-size: 34px;
     }
     .gear-figure .gear-sword{
-      right:6%; top: 48%;
+      right:10%; top: 25%;
       z-index:8; font-size: 58px;
     }
 
