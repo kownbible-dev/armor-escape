@@ -1048,7 +1048,7 @@
       if (collected.has("breastplate")) addIcon("🦺", "gear-breast");
       if (collected.has("shoes"))       addIcon("🥾", "gear-shoes");
       if (collected.has("shield"))      addIcon("🛡️", "gear-shield");
-      if (collected.has("helmet"))      addIcon("🪖", "gear-helmet");
+      if (collected.has("helmet"))      addIcon("⛑️", "gear-helmet");
       if (collected.has("sword"))       addIcon("⚔️", "gear-sword");
 
       characterGearRow.innerHTML = "";
