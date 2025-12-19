@@ -1044,8 +1044,8 @@
       }
 
       // 벨트 이미지는 외부 URL 사용
-      if (collected.has("belt"))
-        addIcon("https://i.postimg.cc/YSnyHH0b/jemog-eul-iblyeoghaejuseyo.png", "gear-belt", true);
+     if (collected.has("belt"))
+  addIcon("https://i.postimg.cc/YSnyHH0b/jemog-eul-iblyeoghaejuseyo.png", "gear-belt", true);
 
       if (collected.has("breastplate")) addIcon("🛡️", "gear-breast");
       if (collected.has("shoes"))       addIcon("👢", "gear-shoes");
