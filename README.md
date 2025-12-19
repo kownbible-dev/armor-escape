@@ -409,7 +409,7 @@
     <!-- 시작 화면 -->
     <div class="start-overlay" id="startOverlay">
       <div class="start-card">
-        <h2 class="start-title">전신갑주 방탈출 퀘스트</h2>
+        <h2 class="start-title">전신갑주를 취하라!</h2>
         <p class="start-sub">
           바울의 전도여행을 따라가며,<br />
           각 방에서 전신갑주 한 가지씩을 획득해 보세요.
