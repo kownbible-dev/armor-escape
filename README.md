@@ -615,7 +615,7 @@
       top:52%;
       transform: translate(-50%, -50%);
       z-index:9;
-       font-size: 72px; 
+       font-size: 52px; 
     }
 
     /* ✅ 벨트: 허리 */
@@ -627,7 +627,7 @@
 }
 
 .gear-figure .gear-belt img{
-  width:100px;
+  width:50px;
   height:auto;
   object-fit:contain;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
