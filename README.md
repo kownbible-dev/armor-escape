@@ -597,14 +597,15 @@
     ========================= */
     .gear-figure .gear-helmet{
       left:50%;
-      top:6%;
-      transform: translateX(-50%);
+      top:7%;
+        transform: translateX(-50%) rotate(-4deg);
       z-index:6;
+      font-size: 50px;
     }
 
     .gear-figure .gear-breast{
       left:50%;
-      top:80%;
+      top:60%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 50px;
@@ -628,7 +629,7 @@
 }
 
 .gear-figure .gear-belt img{
-  width:80px;
+  width:50px;
   height:auto;
   object-fit:contain;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
@@ -636,7 +637,7 @@
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
-      top:50%;
+      top:65%;
       transform: translate(-50%, -50%);
       z-index:3;
       font-size: 30px;
