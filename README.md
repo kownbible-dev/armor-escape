@@ -826,7 +826,7 @@
   </div>
 
   <script>
-    const googleFormUrl = "https://forms.gle/여기에_네_폼_URL_붙여넣기";
+    const googleFormUrl = "https://drive.google.com/drive/folders/13xmf4DbCG1tfWdAWf4lDQbHTLjq6UEPp?usp=drive_link";
 
     const rooms = [
       {
