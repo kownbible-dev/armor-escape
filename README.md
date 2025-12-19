@@ -564,7 +564,7 @@
       max-height: 320px;
 
       /* ✅ 정답 후 나오는 캐릭터(이모지) 크기 자체도 좀 키움 */
-      font-size: min(150px, 38vw);
+      font-size: min(150px, 50vw);
 
       border-radius: 50px;
       background: radial-gradient(circle at top, #1f2937 0, #020617 80%);
