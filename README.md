@@ -577,11 +577,12 @@
       box-shadow: 0 0 42px rgba(251,191,36,0.6);
     }
 
-    /* ✅ 정답 후 나오는 캐릭터 이모지를 “위아래로 더 길게” */
     .gear-figure .base-emoji{
-      transform: translateY(6%) scaleY(1.30);
-      transform-origin: center;
-    }
+  font-size: 1em;              /* gear-figure font-size 그대로 사용 */
+  line-height: 1;
+  transform: translateY(0) scaleY(1.22);
+  transform-origin: center;
+}}
 
     /* 큰 화면 아이콘 기본 크기 */
     .gear-figure .character-gear-icon img{
@@ -617,31 +618,19 @@
     }
 
     /* ✅ 벨트: 허리 */
-    .gear-figure .gear-belt{
-      left:50%;
-      top:55%;
-      transform: translate(-50%, -50%);
-      z-index:5;
+   .gear-figure .gear-belt{
+  left:50%;
+  top:56%;
+  transform: translate(-50%, -50%);
+  z-index:5;
+}
 
-      /* 흰 캔버스(여백) 잘라내기 */
-      width: 240px;
-      height: 95px;
-      overflow: hidden;
-      border-radius: 18px;
-      background: transparent;
-    }
-
-    .gear-figure .gear-belt img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      transform: scale(1.28);
-      mix-blend-mode: multiply;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
-      display:block;
-    }
-
+.gear-figure .gear-belt img{
+  width:180px;
+  height:auto;
+  object-fit:contain;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
+}
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
@@ -1045,7 +1034,12 @@
 
       // 벨트 이미지는 외부 URL 사용
      if (collected.has("belt"))
-  addIcon("https://i.postimg.cc/YSnyHH0b/jemog-eul-iblyeoghaejuseyo.png", "gear-belt", true);
+  addIcon(
+    "https://i.postimg.cc/HWbS3KXs/belt-transparent-cropped.png",
+    "gear-belt",
+    true
+  );
+
 
       if (collected.has("breastplate")) addIcon("🛡️", "gear-breast");
       if (collected.has("shoes"))       addIcon("👢", "gear-shoes");
@@ -1080,7 +1074,7 @@
       const room = rooms[currentIndex];
       updateProgress();
       renderInventory();
-      renderCharacter();
+    
 
       const difficultyBadge =
         room.type === "easy"
