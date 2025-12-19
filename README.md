@@ -457,7 +457,7 @@
 
 <script>
   /* ✅ 업로드 링크(구글 드라이브 / 네이버 클라우드 등) 여기만 바꾸면 됨 */
-  const uploadUrl = "https://drive.google.com/drive/folders/13xmf4DbCG1tfWdAWf4lDQbHTLjq6UEPp?usp=drive_link";
+  const uploadUrl = "https://drive.google.com/drive/folders/13xmf4DbCG1tfWdAWf4lDQbHTLjq6UEPp?usp=sharing";
 
   const rooms = [
     {
