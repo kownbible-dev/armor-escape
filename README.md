@@ -602,7 +602,7 @@
     ========================= */
     .gear-figure .gear-helmet{
       left:50%;
-      top:20%;
+      top:30%;
         transform: translateX(-50%) rotate(-4deg);
       z-index:6;
       font-size: 50px;
@@ -610,7 +610,7 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:42%;
+      top:50%;
       transform: translate(-50%, -50%);
       z-index:4;
        font-size: 60px;
