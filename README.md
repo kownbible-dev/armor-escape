@@ -696,11 +696,11 @@
       addIcon("https://i.postimg.cc/HWbS3KXs/belt-transparent-cropped.png", "gear-belt", true);
     }
 
-    if (collected.has("breastplate")) addIcon("https://i.postimg.cc/13Z8yHHy/jemog-eul-iblyeoghaejuseyo-(1).png", "gear-breast", true );
-    if (collected.has("shoes"))       addIcon("https://i.postimg.cc/gkjd96RD/shoes.png", "gear-shoes" , true);
-    if (collected.has("shield"))      addIcon("https://i.postimg.cc/BbqSPYj0/shield.png", "gear-shield" , true );
-    if (collected.has("helmet"))      addIcon("https://i.postimg.cc/fyL4h63T/helmet.png", "gear-helmet" , true);
-    if (collected.has("sword"))       addIcon("https://i.postimg.cc/pL92jnLf/breastplate.png", "gear-sword" , true);
+    if (collected.has("breastplate")) addIcon("🦺", "gear-breast" );
+    if (collected.has("shoes"))       addIcon("🥾", "gear-shoes" );
+    if (collected.has("shield"))      addIcon("🛡️", "gear-shield"  );
+    if (collected.has("helmet"))      addIcon("⛑️", "gear-helmet" );
+    if (collected.has("sword"))       addIcon("⚔️", "gear-sword");
 
     characterGearRow.innerHTML = "";
     Object.entries(armorNames).forEach(([key,label])=>{
