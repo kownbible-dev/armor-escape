@@ -604,10 +604,10 @@
 
     .gear-figure .gear-breast{
       left:50%;
-      top:60%;
+      top:80%;
       transform: translate(-50%, -50%);
       z-index:4;
-       font-size: 40px;
+       font-size: 50px;
     }
 
     /* ✅ 방패: 몸 “앞”으로 (가장 위 레이어) */
@@ -628,7 +628,7 @@
 }
 
 .gear-figure .gear-belt img{
-  width:100px;
+  width:80px;
   height:auto;
   object-fit:contain;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
@@ -636,7 +636,7 @@
     /* ✅ 신발: 발 아래 느낌 */
     .gear-figure .gear-shoes{
       left:50%;
-      top:60%;
+      top:50%;
       transform: translate(-50%, -50%);
       z-index:3;
       font-size: 30px;
