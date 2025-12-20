@@ -456,8 +456,7 @@
   </div>
 
 <script>
-  /* ✅ 업로드 링크(구글 드라이브 / 네이버 클라우드 등) 여기만 바꾸면 됨 */
-  const uploadUrl = "https://drive.google.com/drive/folders/13xmf4DbCG1tfWdAWf4lDQbHTLjq6UEPp?usp=sharing";
+
 
   const rooms = [
     {
@@ -852,34 +851,72 @@
     renderCharacter();
     updateProgress();
 
-    roomContentEl.innerHTML = `
-      <div class="room-label">ENDING · 전신갑주 완성</div>
-      <h2 class="room-title">모든 방을 탈출했습니다!</h2>
-      <p class="room-subtitle">
-        ${playerName ? `${playerName}은(는)` : "당신은"} 바울과 함께 전신갑주 6개를 모두 모았습니다.
-        이제 진리와 의, 평안, 믿음, 구원, 말씀으로 무장한 하나님의 전사로 설 준비가 되었습니다.
-      </p>
+    } else {
+  roomContentEl.innerHTML = `
+    <div class="room-label">ENDING · 전신갑주 완성</div>
+    <h2 class="room-title">모든 방을 탈출했습니다!</h2>
 
-      <div class="ending-figure-wrap">
-        <div class="ending-figure gear-figure" id="endingFigure">
-          <span class="base-emoji">🧍</span>
+    <p class="room-subtitle">
+      ${playerName ? `${playerName}은(는)` : "당신은"} 전신갑주 6개를 모두 모았습니다.
+      이제 마지막 “퀘스트 완료”를 눌러 말씀을 함께 선포하세요.
+    </p>
+
+    <div class="section-label">획득한 전신갑주</div>
+    <div class="clue-box">
+      <ul>
+        ${Object.keys(armorNames).map((k) => `<li>${armorNames[k]}</li>`).join("")}
+      </ul>
+    </div>
+
+    <div class="footer-row" style="justify-content:center;">
+      <button class="nav-btn primary" id="completeBtn">퀘스트 완료 →</button>
+    </div>
+  `;
+
+  // ✅ 엔딩에서는 풀착장(6개 전부) 강제
+  Object.keys(armorNames).forEach(k => collected.add(k));
+  renderInventory();
+  renderCharacter();
+  updateProgress();
+
+  // ✅ 완료 버튼 누르면 “말씀 화면”으로 전환
+  const completeBtn = document.getElementById("completeBtn");
+  completeBtn.addEventListener("click", () => {
+    roomContentEl.innerHTML = `
+      <div class="room-label">FINAL · 말씀 선포</div>
+      <h2 class="room-title">전신갑주를 취하라</h2>
+
+      <div class="clue-box" style="margin-top:12px; font-size:14px; line-height:1.8;">
+        종말로 너희가 주 안에서와 그 힘의 능력으로 강건하여지고<br />
+        마귀의 궤계를 능히 대적하기 위하여 하나님의 전신갑주를 입으라<br />
+        우리의 씨름은 혈과 육에 대한 것이 아니요 정사와 권세와<br />
+        이 어두움의 세상 주관자들과 하늘에 있는 악의 영들에게 대함이라
+        <div style="margin-top:10px; color: var(--accent); font-weight:700;">
+          에베소서 6장 10-12절
         </div>
       </div>
 
-      <div class="section-label">획득한 전신갑주</div>
-      <div class="clue-box">
-        <ul>${Object.keys(armorNames).map(k=>`<li>${armorNames[k]}</li>`).join("")}</ul>
-      </div>
-
-      <p class="question-text" style="margin-top:14px;">
-        마지막 미션! 오늘 찍은 사진/영상 중 베스트 1개를 <strong>업로드 링크</strong>에 등록해 주세요.
-      </p>
-
-      <div class="footer-row">
-        <button class="nav-btn" type="button" id="restartBtn">다시 하기 ↺</button>
-        <button class="nav-btn primary" type="button" id="uploadBtn">업로드 링크 열기 📤</button>
+      <div class="footer-row" style="justify-content:center;">
+        <button class="nav-btn" id="restartBtn">다시 하기 ↺</button>
       </div>
     `;
+
+    // 다시하기
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      currentIndex = 0;
+      collected.clear();
+      answered.clear();
+      wrongAttempts = 0;
+      noMoreHints = false;
+      startOverlay.style.display = "flex";
+      playerNameInput.value = "";
+      headerSub.textContent = "바울의 전도여행과 전신갑주로 떠나는 방탈출 퀘스트";
+      renderInventory();
+      renderCharacter();
+      updateProgress();
+    });
+  });
+}
 
     // ✅ 엔딩 큰 캐릭터에 장비 아이콘 복사
     const endingFigure = document.getElementById("endingFigure");
