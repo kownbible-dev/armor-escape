@@ -1,3 +1,4 @@
+
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -14,26 +15,9 @@
       --danger:#f97373;
       --success:#4ade80;
 
-      /* ✅ 큰(장착/엔딩) 캐릭터 크기 */
       --big-box: min(320px, 82vw);
       --big-font: min(150px, 50vw);
       --big-radius: 50px;
-
-      /* ✅ 큰 화면 장비(이모지) 크기 */
-      --sz-helmet: 56px;
-      --sz-breast: 64px;
-      --sz-shield: 78px;
-      --sz-shoes: 58px;
-      --sz-sword: 64px;
-      --sz-belt: 180px;
-
-      /* ✅ 큰 화면 장비 위치(%) */
-      --y-helmet: 6%;
-      --y-breast: 34%;
-      --y-shield: 52%;
-      --y-belt: 55%;
-      --y-shoes: 82%;
-      --y-sword: 46%;
     }
 
     *{box-sizing:border-box;}
@@ -102,7 +86,7 @@
     .badge-dot{width:7px;height:7px;border-radius:50%;background:rgba(148,163,184,.6);}
     .badge.collected .badge-dot{background:var(--accent);}
 
-    /* ✅ 문제 위 작은 캐릭터(패널) 완전 숨김 (DOM은 남겨둬야 gear-overlay/엔딩 복사가 가능) */
+    /* ✅ 문제 위 작은 캐릭터 패널 숨김 (DOM은 유지) */
     .character-panel{display:none !important;}
     .character-figure{
       width:64px;height:64px;border-radius:16px;font-size:30px;
@@ -111,11 +95,9 @@
 
     .base-emoji{display:block;line-height:1;position:relative;z-index:1;}
 
-    /* 장비 아이콘 공통 */
     .character-gear-icon{position:absolute;pointer-events:none;}
     .character-gear-icon img{width:26px;height:26px;object-fit:contain;display:block;}
 
-    /* ===== 카드(문제 UI) ===== */
     .card{
       background: radial-gradient(circle at top,#1f2937 0,#020617 58%);
       border-radius:22px;padding:18px 16px 18px;
@@ -208,8 +190,6 @@
       box-shadow:0 24px 60px rgba(0,0,0,.7);
       text-align:center;
     }
-
-    /* ✅ 시작 화면도 "문제 카드" 느낌으로 크게 */
     .start-card{
       max-width:840px;
       background: radial-gradient(circle at top,#1f2937 0,#020617 58%);
@@ -262,54 +242,51 @@
       box-shadow:0 0 42px rgba(251,191,36,.6);
     }
 
-    /* ✅ 큰 화면 베이스 이모지(키/비율) */
     .gear-figure .base-emoji{
-      font-size:1em;       /* gear-figure font-size 그대로 */
+      font-size:1em;
       line-height:1;
-      transform: scaleY(1.25); /* 인형 비율 */
+      transform: scaleY(1.25);
       transform-origin:center;
     }
 
-    /* 큰 화면: 이미지 아이콘(벨트) 기본 */
     .gear-figure .character-gear-icon img{
       width:78px;height:78px;object-fit:contain;
     }
 
-    /* ===== 큰 화면 장비 위치/크기 ===== */
+    /* 큰 화면 장비 위치/크기(이모지) */
     .gear-figure .gear-helmet{
-      left:50%; top: 12%;
+      left:50%; top:12%;
       transform: translateX(-50%) rotate(-4deg);
-      z-index:6; font-size: 46px;
+      z-index:6; font-size:46px;
     }
     .gear-figure .gear-breast{
       left:50%; top:46%;
       transform: translate(-50%,-50%);
-      z-index:4; font-size: 62px;
+      z-index:4; font-size:62px;
     }
     .gear-figure .gear-shield{
       left:40%; top:46%;
       transform: translate(-50%,-50%);
-      z-index:9; font-size: 70px;
+      z-index:9; font-size:70px;
     }
     .gear-figure .gear-shoes{
-      left:50%; top: 80%;
-      transform: translate(0%,0%);
-      z-index:3; font-size: 34px;
+      left:50%; top:80%;
+      transform: translate(-50%,-50%);
+      z-index:3; font-size:34px;
     }
     .gear-figure .gear-sword{
-      right:16%; top: 25%;
-      z-index:8; font-size: 58px;
+      right:16%; top:25%;
+      z-index:8; font-size:58px;
     }
 
-    /* ✅ 벨트(큰 화면): 투명 크롭 PNG이므로 “잘라내기” 불필요 */
+    /* 벨트(큰 화면) */
     .gear-figure .gear-belt{
-      left:50%; top: 57%;
+      left:50%; top:57%;
       transform: translate(-50%,-50%);
       z-index:5;
-      fontsize:20px;
     }
     .gear-figure .gear-belt img{
-      width: 52px;
+      width:52px;
       height:auto;
       object-fit:contain;
       filter: drop-shadow(0 6px 10px rgba(0,0,0,.55));
@@ -322,32 +299,12 @@
     .character-figure .gear-shoes{left:50%;top:88%;transform:translate(-50%,-50%);z-index:3;}
     .character-figure .gear-shield{left:50%;top:52%;transform:translate(-50%,-50%);z-index:7;}
     .character-figure .gear-sword{right:4px;top:42%;z-index:6;}
-
     .character-figure .gear-belt img{
       width:56px;height:auto;object-fit:contain;
       filter: drop-shadow(0 6px 10px rgba(0,0,0,.55));
     }
 
-    /* ===== 엔딩: 풀착장 큰 캐릭터 ===== */
-    .ending-figure-wrap{margin:14px auto 10px;display:flex;justify-content:center;}
-    .ending-figure{
-      width: var(--big-box);
-      height: var(--big-box);
-      font-size: var(--big-font);
-      border-radius: var(--big-radius);
-      background: radial-gradient(circle at top,#1f2937 0,#020617 80%);
-      display:flex;align-items:center;justify-content:center;
-      position:relative;overflow:hidden;
-      border:3px solid rgba(251,191,36,.9);
-      box-shadow:0 0 42px rgba(251,191,36,.6);
-    }
-    .ending-figure .base-emoji{
-      font-size:1em;line-height:1;
-      transform: scaleY(1.22);
-      transform-origin:center;
-    }
-
-    /* ===== ✅ 시작 버튼 팝 연출(전역: @media 밖) ===== */
+    /* ===== ✅ 시작 버튼 팝 연출(전역) ===== */
     .start-card{transform:translateZ(0);will-change:transform,opacity;}
     .start-card.start-pop{animation:startPop 420ms cubic-bezier(.2,.9,.2,1) both;}
     @keyframes startPop{
@@ -356,12 +313,10 @@
       100%{transform:scale(1);opacity:1;}
     }
 
-    /* 모바일 최적화(필요한 것만) */
     @media (max-width:480px){
       :root{
         --big-box: min(340px, 86vw);
         --big-font: min(150px, 48vw);
-        --sz-belt: min(200px, 62vw);
       }
       .gear-card{padding:26px 18px 26px;}
       .start-card{max-width:840px;}
@@ -456,8 +411,6 @@
   </div>
 
 <script>
-
-
   const rooms = [
     {
       id: 1, type: "easy",
@@ -644,7 +597,10 @@
     const startCard = document.querySelector(".start-card");
     startBtn.disabled = true;
 
+    let done = false;
     const goNext = () => {
+      if (done) return;
+      done = true;
       startOverlay.style.display = "none";
       pendingNextIndex = 0;
       showLocationGate(pendingNextIndex);
@@ -656,9 +612,7 @@
 
     startCard.classList.add("start-pop");
     startCard.addEventListener("animationend", goNext, { once:true });
-
-    // ✅ fallback (animationend가 안 와도 시작되게)
-    setTimeout(goNext, 480);
+    setTimeout(goNext, 520); // fallback
   });
 
   function renderInventory(){
@@ -673,7 +627,6 @@
   }
 
   function renderCharacter(){
-    // 숨겨진 캐릭터 DOM(복사용)
     characterFigure.innerHTML = '<span class="base-emoji">🧍</span>';
 
     function addIcon(content, extraClass, isImage=false){
@@ -683,22 +636,21 @@
         const img = document.createElement("img");
         img.src = content;
         img.alt = "";
+        img.draggable = false;
         span.appendChild(img);
-      }else{
+      } else {
         span.textContent = content;
       }
       characterFigure.appendChild(span);
     }
 
-    // ✅ 벨트(투명 크롭 PNG)
     if (collected.has("belt")){
       addIcon("https://i.postimg.cc/HWbS3KXs/belt-transparent-cropped.png", "gear-belt", true);
     }
-
-    if (collected.has("breastplate")) addIcon("🦺", "gear-breast" );
-    if (collected.has("shoes"))       addIcon("🥾", "gear-shoes" );
-    if (collected.has("shield"))      addIcon("🛡️", "gear-shield"  );
-    if (collected.has("helmet"))      addIcon("⛑️", "gear-helmet" );
+    if (collected.has("breastplate")) addIcon("🦺", "gear-breast");
+    if (collected.has("shoes"))       addIcon("🥾", "gear-shoes");
+    if (collected.has("shield"))      addIcon("🛡️", "gear-shield");
+    if (collected.has("helmet"))      addIcon("⛑️", "gear-helmet");
     if (collected.has("sword"))       addIcon("⚔️", "gear-sword");
 
     characterGearRow.innerHTML = "";
@@ -718,7 +670,7 @@
 
     if (collected.size === Object.keys(armorNames).length){
       completionText.innerHTML = "🎉 전신갑주 <strong>6개를 모두 모았습니다!</strong> 이제 바울과 함께 복음을 따라 담대히 서 있을 수 있습니다.";
-    }else{
+    } else {
       completionText.innerHTML = "전신갑주 6개를 모두 모으면 <strong>엔딩 메시지</strong>가 열립니다.";
     }
   }
@@ -727,7 +679,7 @@
     const room = rooms[currentIndex];
     updateProgress();
     renderInventory();
-    renderCharacter(); // ✅ gear-overlay/엔딩 복사용 DOM 항상 최신 유지
+    renderCharacter(); // 복사용 DOM 최신화
 
     const difficultyBadge = room.type==="easy"
       ? '<span class="badge-easy">EASY</span>'
@@ -788,7 +740,6 @@
       btn.addEventListener("click", ()=>{
         if (answered.has(room.id)) return;
 
-        // 초기화
         feedbackEl.textContent = "";
         feedbackEl.className = "feedback";
         if (!noMoreHints){
@@ -812,15 +763,13 @@
           renderInventory();
           renderCharacter();
           nextBtn.disabled = false;
-
-        }else{
-          // 오답: 색/해설 표시 안 함
+        } else {
           wrongAttempts++;
           if (wrongAttempts >= 3){
             noMoreHints = true;
             hintBtn.style.display = "none";
             hintText.textContent = "힌트 사용 가능 횟수를 모두 소진했습니다.";
-          }else{
+          } else {
             if (!noMoreHints) hintBtn.style.display = "inline-flex";
           }
         }
@@ -838,50 +787,42 @@
       if (currentIndex < rooms.length - 1){
         pendingNextIndex = currentIndex + 1;
         showGearOverlay(lastArmorKey);
-      }else{
+      } else {
         showEnding();
       }
     });
   }
 
   function showEnding(){
-    // ✅ 엔딩에서는 풀착장 강제
+    // 엔딩에서는 풀착장 강제
     Object.keys(armorNames).forEach(k=>collected.add(k));
     renderInventory();
     renderCharacter();
     updateProgress();
 
-    } else {
-  roomContentEl.innerHTML = `
-    <div class="room-label">ENDING · 전신갑주 완성</div>
-    <h2 class="room-title">모든 방을 탈출했습니다!</h2>
+    roomContentEl.innerHTML = `
+      <div class="room-label">ENDING · 전신갑주 완성</div>
+      <h2 class="room-title">모든 방을 탈출했습니다!</h2>
 
-    <p class="room-subtitle">
-      ${playerName ? `${playerName}은(는)` : "당신은"} 전신갑주 6개를 모두 모았습니다.
-      이제 마지막 “퀘스트 완료”를 눌러 말씀을 함께 선포하세요.
-    </p>
+      <p class="room-subtitle">
+        ${playerName ? `${playerName}은(는)` : "당신은"} 전신갑주 6개를 모두 모았습니다.
+        이제 마지막 “퀘스트 완료”를 눌러 말씀을 함께 선포하세요.
+      </p>
 
-    <div class="section-label">획득한 전신갑주</div>
-    <div class="clue-box">
-      <ul>
-        ${Object.keys(armorNames).map((k) => `<li>${armorNames[k]}</li>`).join("")}
-      </ul>
-    </div>
+      <div class="section-label">획득한 전신갑주</div>
+      <div class="clue-box">
+        <ul>${Object.keys(armorNames).map(k => `<li>${armorNames[k]}</li>`).join("")}</ul>
+      </div>
 
-    <div class="footer-row" style="justify-content:center;">
-      <button class="nav-btn primary" id="completeBtn">퀘스트 완료 →</button>
-    </div>
-  `;
+      <div class="footer-row" style="justify-content:center;">
+        <button class="nav-btn primary" type="button" id="completeBtn">퀘스트 완료 →</button>
+      </div>
+    `;
 
-  // ✅ 엔딩에서는 풀착장(6개 전부) 강제
-  Object.keys(armorNames).forEach(k => collected.add(k));
-  renderInventory();
-  renderCharacter();
-  updateProgress();
+    document.getElementById("completeBtn").addEventListener("click", showFinalVerse);
+  }
 
-  // ✅ 완료 버튼 누르면 “말씀 화면”으로 전환
-  const completeBtn = document.getElementById("completeBtn");
-  completeBtn.addEventListener("click", () => {
+  function showFinalVerse(){
     roomContentEl.innerHTML = `
       <div class="room-label">FINAL · 말씀 선포</div>
       <h2 class="room-title">전신갑주를 취하라</h2>
@@ -897,55 +838,33 @@
       </div>
 
       <div class="footer-row" style="justify-content:center;">
-        <button class="nav-btn" id="restartBtn">다시 하기 ↺</button>
+        <button class="nav-btn" type="button" id="restartBtn">다시 하기 ↺</button>
       </div>
     `;
 
-    // 다시하기
-    document.getElementById("restartBtn").addEventListener("click", () => {
-      currentIndex = 0;
-      collected.clear();
-      answered.clear();
-      wrongAttempts = 0;
-      noMoreHints = false;
-      startOverlay.style.display = "flex";
-      playerNameInput.value = "";
-      headerSub.textContent = "바울의 전도여행과 전신갑주로 떠나는 방탈출 퀘스트";
-      renderInventory();
-      renderCharacter();
-      updateProgress();
-    });
-  });
-}
+    document.getElementById("restartBtn").addEventListener("click", restartAll);
+  }
 
-    // ✅ 엔딩 큰 캐릭터에 장비 아이콘 복사
-    const endingFigure = document.getElementById("endingFigure");
-    if (endingFigure){
-      const iconsOnly = characterFigure.innerHTML.replace(/<span class="base-emoji">🧍<\/span>/g, "");
-      endingFigure.innerHTML = `<span class="base-emoji">🧍</span>` + iconsOnly;
-    }
+  function restartAll(){
+    currentIndex = 0;
+    playerName = "";
+    collected.clear();
+    answered.clear();
+    wrongAttempts = 0;
+    noMoreHints = false;
+    pendingNextIndex = null;
+    lastArmorKey = null;
 
-    document.getElementById("restartBtn").addEventListener("click", ()=>{
-      currentIndex = 0;
-      collected.clear();
-      answered.clear();
-      wrongAttempts = 0;
-      noMoreHints = false;
-      playerNameInput.value = "";
-      headerSub.textContent = "바울의 전도여행과 전신갑주로 떠나는 방탈출 퀘스트";
-      startOverlay.style.display = "flex";
-      renderInventory();
-      renderCharacter();
-      updateProgress();
-    });
+    locationOverlay.style.display = "none";
+    gearOverlay.style.display = "none";
+    startOverlay.style.display = "flex";
 
-    document.getElementById("uploadBtn").addEventListener("click", ()=>{
-      if (uploadUrl && uploadUrl.startsWith("http")){
-        window.open(uploadUrl, "_blank");
-      }else{
-        alert("업로드 URL이 아직 설정되지 않았습니다.");
-      }
-    });
+    playerNameInput.value = "";
+    headerSub.textContent = "바울의 전도여행과 전신갑주로 떠나는 방탈출 퀘스트";
+
+    renderInventory();
+    renderCharacter();
+    updateProgress();
   }
 
   function showLocationGate(index){
@@ -965,7 +884,6 @@
     gearTitle.textContent = `${armorNames[armorKey]} 획득!`;
     gearSub.textContent = `새로운 전신갑주 조각, '${armorNames[armorKey]}'를 장착했습니다.`;
 
-    // ✅ 큰 화면 캐릭터: base-emoji + 장비 아이콘(숨겨진 characterFigure에서 복사)
     const iconsOnly = characterFigure.innerHTML.replace(/<span class="base-emoji">🧍<\/span>/g, "");
     gearFigure.innerHTML = `<span class="base-emoji">🧍</span>` + iconsOnly;
 
@@ -990,7 +908,7 @@
     if (pendingNextIndex != null) showLocationGate(pendingNextIndex);
   });
 
-  // 초기 표시(시작 전에도 뱃지 렌더)
+  // 초기 표시
   renderInventory();
   renderCharacter();
   updateProgress();
