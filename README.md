@@ -321,6 +321,43 @@
       .gear-card{padding:26px 18px 26px;}
       .start-card{max-width:840px;}
     }
+
+    /* ===== 엔딩: 풀착장 큰 캐릭터 영역 ===== */
+.ending-figure-wrap{
+  margin: 14px auto 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.ending-figure{
+  width: var(--big-box);
+  height: var(--big-box);
+  font-size: var(--big-font);
+  border-radius: var(--big-radius);
+  background: radial-gradient(circle at top,#1f2937 0,#020617 80%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  border:3px solid rgba(251,191,36,.9);
+  box-shadow:0 0 42px rgba(251,191,36,.6);
+}
+
+.ending-figure .base-emoji{
+  font-size:1em;
+  line-height:1;
+  transform: scaleY(1.25);
+  transform-origin:center;
+}
+
+/* 엔딩 figure 안의 이미지 아이콘(벨트 png 등) 기본 크기 */
+.ending-figure .character-gear-icon img{
+  width:78px;
+  height:78px;
+  object-fit:contain;
+}
+
   </style>
 </head>
 
@@ -793,34 +830,92 @@
     });
   }
 
-  function showEnding(){
-    // 엔딩에서는 풀착장 강제
-    Object.keys(armorNames).forEach(k=>collected.add(k));
+function showEnding(){
+  // ✅ 엔딩에서는 풀착장 강제
+  Object.keys(armorNames).forEach(k=>collected.add(k));
+  renderInventory();
+  renderCharacter();
+  updateProgress();
+
+  roomContentEl.innerHTML = `
+    <div class="room-label">ENDING · 전신갑주 완성</div>
+    <h2 class="room-title">모든 방을 탈출했습니다!</h2>
+
+    <p class="room-subtitle">
+      ${playerName ? `${playerName}은(는)` : "당신은"} 전신갑주 6개를 모두 모았습니다.
+      아래 풀착장 캐릭터를 확인하고, 마지막 “퀘스트 완료”를 눌러 말씀을 함께 선포하세요.
+    </p>
+
+    <!-- ✅ 여기! 엔딩 풀착장 캐릭터 영역 -->
+    <div class="ending-figure-wrap">
+      <div class="ending-figure" id="endingFigure">
+        <span class="base-emoji">🧍</span>
+      </div>
+    </div>
+
+    <div class="section-label">획득한 전신갑주</div>
+    <div class="clue-box">
+      <ul>${Object.keys(armorNames).map(k => `<li>${armorNames[k]}</li>`).join("")}</ul>
+    </div>
+
+    <div class="footer-row" style="justify-content:center;">
+      <button class="nav-btn primary" type="button" id="completeBtn">퀘스트 완료 →</button>
+    </div>
+  `;
+
+  // ✅ 엔딩 큰 캐릭터에 장비 아이콘 복사(숨김 캐릭터에서 그대로 가져오기)
+  const endingFigure = document.getElementById("endingFigure");
+  if (endingFigure){
+    const iconsOnly = characterFigure.innerHTML.replace(/<span class="base-emoji">🧍<\/span>/g, "");
+    endingFigure.innerHTML = `<span class="base-emoji">🧍</span>` + iconsOnly;
+  }
+
+  document.getElementById("completeBtn").addEventListener("click", showFinalVerse);
+}
+
+  function showFinalVerse(){
+  roomContentEl.innerHTML = `
+    <div class="room-label">FINAL · 말씀 선포</div>
+    <h2 class="room-title">전신갑주를 취하라</h2>
+
+    <div class="clue-box" style="margin-top:12px; font-size:14px; line-height:1.8;">
+      종말로 너희가 주 안에서와 그 힘의 능력으로 강건하여지고<br />
+      마귀의 궤계를 능히 대적하기 위하여 하나님의 전신갑주를 입으라<br />
+      우리의 씨름은 혈과 육에 대한 것이 아니요 정사와 권세와<br />
+      이 어두움의 세상 주관자들과 하늘에 있는 악의 영들에게 대함이라
+      <div style="margin-top:10px; color: var(--accent); font-weight:700;">
+        에베소서 6장 10–12절
+      </div>
+    </div>
+
+    <div class="footer-row" style="justify-content:center;">
+      <button class="nav-btn" type="button" id="restartBtn">다시 하기 ↺</button>
+    </div>
+  `;
+
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    currentIndex = 0;
+    collected.clear();
+    answered.clear();
+    wrongAttempts = 0;
+    noMoreHints = false;
+    pendingNextIndex = null;
+    lastArmorKey = null;
+
+    startOverlay.style.display = "flex";
+    locationOverlay.style.display = "none";
+    gearOverlay.style.display = "none";
+
+    playerNameInput.value = "";
+    headerSub.textContent = "바울의 전도여행과 전신갑주로 떠나는 방탈출 퀘스트";
+
     renderInventory();
     renderCharacter();
     updateProgress();
+  });
+}
 
-    roomContentEl.innerHTML = `
-      <div class="room-label">ENDING · 전신갑주 완성</div>
-      <h2 class="room-title">모든 방을 탈출했습니다!</h2>
 
-      <p class="room-subtitle">
-        ${playerName ? `${playerName}은(는)` : "당신은"} 전신갑주 6개를 모두 모았습니다.
-        이제 마지막 “퀘스트 완료”를 눌러 말씀을 함께 선포하세요.
-      </p>
-
-      <div class="section-label">획득한 전신갑주</div>
-      <div class="clue-box">
-        <ul>${Object.keys(armorNames).map(k => `<li>${armorNames[k]}</li>`).join("")}</ul>
-      </div>
-
-      <div class="footer-row" style="justify-content:center;">
-        <button class="nav-btn primary" type="button" id="completeBtn">퀘스트 완료 →</button>
-      </div>
-    `;
-
-    document.getElementById("completeBtn").addEventListener("click", showFinalVerse);
-  }
 
   function showFinalVerse(){
     roomContentEl.innerHTML = `
