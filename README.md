@@ -293,7 +293,7 @@
     }
     .gear-figure .gear-shoes{
       left:50%; top: 80%;
-      transform: translate(-50%,-50%);
+      transform: translate(0%,0%);
       z-index:3; font-size: 34px;
     }
     .gear-figure .gear-sword{
