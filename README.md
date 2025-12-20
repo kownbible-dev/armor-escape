@@ -287,7 +287,7 @@
       z-index:4; font-size: 62px;
     }
     .gear-figure .gear-shield{
-      left:20%; top:46%;
+      left:40%; top:46%;
       transform: translate(-50%,-50%);
       z-index:9; font-size: 70px;
     }
